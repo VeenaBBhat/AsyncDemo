@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Code sample to understand JavaScript promises">
+    <meta name="author" content="Veena Baburai Bhat">
+    <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Promise Demo</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/sign-in/signin.css" rel="stylesheet">	
+	<script>
+			window.onload=function(){
+				document.getElementById('username').onblur=function(){
+					var mypromise=new Promise(function(resolve,reject){
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange=function(){
+					if(xhr.readyState==4){
+						if(xhr.status==200)
+						resolve(JSON.parse(xhr.responseText));
+						else
+						reject("Error "+xhr.statusText);
+					}
+					}
+				xhr.open("GET", "users.json"); 
+				xhr.send(null);  
+				});
+				mypromise.then(function(users){
+					let flag=false;
+					let username=document.getElementById('username').value;
+					for(user of users){
+						if(user.name==username){
+							flag=true; break;
+						}
+					}
+					if(flag) document.getElementById("message").innerHTML="Username already available";
+					else document.getElementById("message").innerHTML="Username accepted!";
+				},function(error){
+					alert("Error on page "+error);
+				});
+						
+				}
+			}
+    </script>
+  </head>
+
+  <body class="text-center">
+    <form class="form-signin">
+      <h1 class="h3 mb-3 font-weight-normal">Sign In Form</h1>
+      <label for="username" class="sr-only">Email address</label>
+      <input type="text" id="username" class="form-control" placeholder="Username" required autofocus>
+	  <span id="message"></span>
+      <label for="pwd" class="sr-only">Password</label>
+      <input type="password" id="pwd" class="form-control" placeholder="Password" required>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2019</p>
+    </form>
+  </body>
+</html>
