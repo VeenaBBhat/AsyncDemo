@@ -1,0 +1,58 @@
+<!-- *******************/
+Author: Veena_Bhat
+Date: 28/8/2018
+******************** -->
+<html>
+	<head>
+	<script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js"></script>
+	<script>
+		/************** SetInterval method invoked at every 3 seconds 
+		to generate a random number as stock price *****************/
+		/*var count=0;
+		var iv=setInterval(function(){
+			let stock=Math.floor(Math.random()*100);
+				if(count==5) clearInterval(iv);
+				else   console.log(`The current stock price is ${stock}`);
+				count++;
+		},3000);*/
+	</script>
+	<script>
+		/************** SetInterval enclosed in a promise, handles and 
+		stops after the resolve for first random number *************/
+		new Promise(function(resolve,reject){
+			var count=0;
+			var iv=setInterval(function(){
+			let stock=Math.floor(Math.random()*100);
+				if(count==5) clearInterval(iv);
+				else   resolve(`The current stock price from promise is ${stock}`);
+				count++;
+			},3000);
+		}).then((data)=>console.log(data));
+	</script>
+	<script>
+	/************** SetInterval enclosed in observable handles
+	the async data coming over a period of time, executes 
+	subsribe for all the random numbers **********************/
+	const { Observable } = rxjs;
+	var count=0;
+	var sub=new Observable(observer => {
+	var iv=setInterval(function(){
+		let stock=Math.floor(Math.random()*100);
+			if(count==5) clearInterval(iv);
+			else observer.next(stock);
+			count++;
+	},3000);
+	}).subscribe((value) => { 
+	/*********** Uncomment the below code to check the cancellation of further async call handling using unsubscribe method *************/ 
+	if(value>50) sub.unsubscribe();
+	else 
+	console.log(`The current stock price from observable is ${value}`); 
+	},
+	error => console.log("error"),
+	() => console.log("done"));
+	</script>
+	</head>
+	<body>
+		<h1>Example to demonstrate Promises V/s Observables</h1>
+	</body>
+</html>
