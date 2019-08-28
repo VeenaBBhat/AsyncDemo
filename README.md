@@ -3,7 +3,7 @@
 This project contains sample code snippets to explain various mechanism which is supported by JavaScript for handling async requests. Below are some of the concepts highlighted in the demo:
 
 1. Creating a simple Ajax request using XMLHttpRequest Object and handling the response using callbacks
-2. Handling the same Ajax request with the help of promises
+2. Handling the same Ajax request with the help of promises which helps in structuring the code and avoiding callback hell for nested Ajax calls from the same page
 3. Understanding the difference between promises and observables
 4. Simple example to understand two-way data binding using AngularJS
 
